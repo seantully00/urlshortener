@@ -5,7 +5,7 @@ var app = express();
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var url = process.env.MONGOLAB_URI;
-var origurl, newurl;
+var origurl, newurl, doc;
 var port = process.env.PORT || 8080;
 var key = 0;
 
@@ -13,9 +13,12 @@ app.get('/new/:origurl', function(req, res) {
     var origurl = req.params.origurl;
     var newurl = "https://sturlshortener.herokuapp.com/" + key;
     key = key + 1;
+    doc = {'origurl': origurl, 'newurl': newurl}
+    res.write(JSON.stringify(doc));
+	res.end();
 })
 
-var doc = {'origurl': origurl, 'newurl': newurl}
+
 
 MongoClient.connect(url, function (err, db) {
   if (err) {
