@@ -5,6 +5,17 @@ var app = express();
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var url = process.env.MONGOLAB_URI;
+var origurl, newurl;
+var port = process.env.PORT || 8080;
+var key = 0;
+
+app.get('/new/:origurl', function(req, res) {
+    var origurl = req.params.origurl;
+    var newurl = "https://sturlshortener.herokuapp.com/" + key;
+    key = key + 1;
+})
+
+var doc = {'origurl': origurl, 'newurl': newurl}
 
 MongoClient.connect(url, function (err, db) {
   if (err) {
@@ -13,8 +24,16 @@ MongoClient.connect(url, function (err, db) {
     console.log('Connection established to', url);
 
     // do some work here with the database.
+    var urls = db.collection('urls');
+    urls.insert(doc, function(err, data){
+        if(err) console.log(err);
+    })
 
     //Close connection
     db.close();
   }
+});
+
+app.listen(port, function () {
+  console.log('App listening on port 8080!');
 });
