@@ -8,6 +8,9 @@ var url = process.env.MONGOLAB_URI;
 var origurl, newurl, doc;
 var port = process.env.PORT || 8080;
 var key = 0;
+var bodyParser = require('body-parser');
+
+app.use(bodyParser());
 
 app.get('/new/:origurl', function(req, res) {
     var origurl = req.params.origurl;
@@ -37,5 +40,5 @@ MongoClient.connect(url, function (err, db) {
 });
 
 app.listen(port, function () {
-  console.log('App listening on port 8080!');
+  console.log('App listening on port' + port + '!');
 });
