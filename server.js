@@ -13,11 +13,10 @@ app.get('/new/:origurl', function(req, res) {
     var origurl = req.params.origurl;
     var newurl = "https://sturlshortener.herokuapp.com/" + key;
     key = key + 1;
-    doc = {'origurl': origurl, 'newurl': newurl}
+    doc = {'origurl': origurl, 'newurl': newurl};
     res.write(JSON.stringify(doc));
 	res.end();
-})
-
+});
 
 
 MongoClient.connect(url, function (err, db) {
@@ -30,8 +29,8 @@ MongoClient.connect(url, function (err, db) {
     var urls = db.collection('urls');
     urls.insert(doc, function(err, data){
         if(err) console.log(err);
-    })
-
+    });
+    console.log(JSON.stringify(doc));
     //Close connection
     db.close();
   }
