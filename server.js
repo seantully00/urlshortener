@@ -10,11 +10,13 @@ var port = process.env.PORT || 8080;
 var key = 0;
 var bodyParser = require('body-parser');
 
-app.use(bodyParser());
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/new/:origurl', function(req, res) {
-    var origurl = req.params.origurl;
-    var newurl = "https://sturlshortener.herokuapp.com/" + key;
+    origurl = req.params.origurl;
+    newurl = "https://sturlshortener.herokuapp.com/" + key;
     key = key + 1;
     doc = {'origurl': origurl, 'newurl': newurl};
     res.write(JSON.stringify(doc));
@@ -40,5 +42,5 @@ MongoClient.connect(url, function (err, db) {
 });
 
 app.listen(port, function () {
-  console.log('App listening on port' + port + '!');
+  console.log('App listening on port ' + port + '!');
 });
