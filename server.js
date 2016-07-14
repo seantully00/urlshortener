@@ -8,10 +8,17 @@ var url = process.env.MONGOLAB_URI;
 var origurl, newurl, doc;
 var port = process.env.PORT || 8080;
 var key = 0;
+var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
-app.use(bodyParser.json());
+var urlschema = mongoose.Schema ({
+  origurl: String,
+  newurl: String
+});
 
+mongoose.connect(url);
+
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/new/:origurl', function(req, res) {
@@ -23,13 +30,19 @@ app.get('/new/:origurl', function(req, res) {
 	res.end();
 });
 
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // we're connected!
+});
 
-MongoClient.connect(url, function (err, db) {
+
+/*MongoClient.connect(url, function (err, db) {
   if (err) {
     console.log('Unable to connect to the mongoDB server. Error:', err);
   } else {
     console.log('Connection established to', url);
-
+}
     // do some work here with the database.
     var urls = db.collection('urls');
     urls.insert(doc, function(err, data){
@@ -38,8 +51,7 @@ MongoClient.connect(url, function (err, db) {
     console.log(JSON.stringify(doc));
     //Close connection
     db.close();
-  }
-});
+});*/
 
 app.listen(port, function () {
   console.log('App listening on port ' + port + '!');
