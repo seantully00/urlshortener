@@ -10,6 +10,7 @@ var port = process.env.PORT || 8080;
 var key = 0;
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var routes = require('./routes/index');
 
 var urlschema = mongoose.Schema ({
   origurl: String,
