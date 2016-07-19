@@ -15,15 +15,17 @@ require('dotenv').config({
    silent: true
  });
 
-//var urlschema = mongoose.Schema ({
-  //origurl: String,
-  //newurl: String
-//});
+var urlschema = mongoose.Schema ({
+  origurl: String,
+  newurl: String
+});
 
-//mongoose.connect(url);
+mongoose.connect(url);
 
-//app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
 
 app.get('/new/:origurl', function(req, res) {
       origurl = req.params.origurl;
@@ -31,12 +33,17 @@ app.get('/new/:origurl', function(req, res) {
     key = key + 1;
     doc = {'origurl': origurl, 'newurl': newurl};
     res.write(JSON.stringify(doc));
-  MongoClient.connect(url, function (err, db) {
+    var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  //we're connected!
+});
+  /*MongoClient.connect(url, function (err, db) {
   if (err) {
     console.log('Unable to connect to the mongoDB server. Error:', err);
   } else {
     console.log('Connection established to', url);
-}
+}*/
     // do some work here with the database.
     var urls = db.collection('urls');
     urls.insert(doc, function(err, data){
@@ -49,11 +56,7 @@ app.get('/new/:origurl', function(req, res) {
 	res.end();
 });
 
-//var db = mongoose.connection;
-//db.on('error', console.error.bind(console, 'connection error:'));
-//db.once('open', function() {
-  // we're connected!
-//});
+
 
 
 
