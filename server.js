@@ -23,6 +23,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/new/:origurl', function(req, res) {
+      origurl = req.params.origurl;
+    newurl = "https://sturlshortener.herokuapp.com/" + key;
+    key = key + 1;
+    doc = {'origurl': origurl, 'newurl': newurl};
+    res.write(JSON.stringify(doc));
   MongoClient.connect(url, function (err, db) {
   if (err) {
     console.log('Unable to connect to the mongoDB server. Error:', err);
@@ -38,11 +43,6 @@ app.get('/new/:origurl', function(req, res) {
     //Close connection
     db.close();
 });
-    origurl = req.params.origurl;
-    newurl = "https://sturlshortener.herokuapp.com/" + key;
-    key = key + 1;
-    doc = {'origurl': origurl, 'newurl': newurl};
-    res.write(JSON.stringify(doc));
 	res.end();
 });
 
