@@ -53,8 +53,8 @@ db.once('open', function() {
     //Close connection
     db.close();
 });
-	res.end();
-});
+	//res.end();
+//});
 
 
 
