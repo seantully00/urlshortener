@@ -11,16 +11,19 @@ var key = 0;
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index');
+require('dotenv').config({
+   silent: true
+ });
 
-var urlschema = mongoose.Schema ({
-  origurl: String,
-  newurl: String
-});
+//var urlschema = mongoose.Schema ({
+  //origurl: String,
+  //newurl: String
+//});
 
-mongoose.connect(url);
+//mongoose.connect(url);
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/new/:origurl', function(req, res) {
       origurl = req.params.origurl;
