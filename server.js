@@ -2,6 +2,7 @@
 
 var express = require('express');
 var app = express();
+var path = require('path');
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var url = process.env.MONGOLAB_URI;
@@ -54,7 +55,8 @@ app.get('/new/:origurl', function(req, res) {
 //});
 
 
-
+app.set('views', path.join(__dirname, 'views'));
+  app.set('view engine', 'jade');
 
 
 
